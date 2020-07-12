@@ -39,7 +39,6 @@ import {
 } from './actions';
 
 import {loadCloudMap} from 'kepler.gl/actions';
-import {CLOUD_PROVIDERS} from './cloud-providers';
 
 const KeplerGl = require('kepler.gl/components').injectComponents([
   replaceLoadDataModal(),
@@ -49,16 +48,10 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 
 // Sample data
 /* eslint-disable no-unused-vars */
-import sampleTripData, {testCsvData, sampleTripDataConfig} from './data/sample-trip-data';
-import sampleGeojson from './data/sample-small-geojson';
-import sampleGeojsonPoints from './data/sample-geojson-points';
-import sampleGeojsonConfig from './data/sample-geojson-config';
-import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
-import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
-import sampleAnimateTrip from './data/sample-animate-trip-data';
-import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
+
 import {addDataToMap, addNotification} from 'kepler.gl/actions';
 import {processCsvData, processGeojson} from 'kepler.gl/processors';
+import {addCustomMapStyle, loadCustomMapStyle, wrapTo} from 'kepler.gl';
 /* eslint-enable no-unused-vars */
 
 const BannerHeight = 48;
@@ -106,17 +99,19 @@ class App extends Component {
     // we ry to fetch along map configurations
     const {params: {id, provider} = {}, location: {query = {}} = {}} = this.props;
 
-    const cloudProvider = CLOUD_PROVIDERS.find(c => c.name === provider);
-    if (cloudProvider) {
-      this.props.dispatch(
-        loadCloudMap({
-          loadParams: query,
-          provider: cloudProvider,
-          onSuccess: onLoadCloudMapSuccess
+
+    const wrapIt = wrapTo("map");
+    this.props.dispatch(
+      wrapIt(
+        loadCustomMapStyle({
+          style: "http://10.0.2.3:80/styles/basic-preview/style.json"
         })
-      );
-      return;
-    }
+      )
+    );
+    this.props.dispatch(wrapIt(addCustomMapStyle()));
+
+
+
 
     // Load sample using its id
     if (id) {
@@ -241,6 +236,8 @@ class App extends Component {
   _loadIconData() {
     // load icon data and config and process csv file
     this.props.dispatch(
+
+
       addDataToMap({
         datasets: [
           {
@@ -395,7 +392,6 @@ class App extends Component {
                   getState={keplerGlGetState}
                   width={width}
                   height={height}
-                  cloudProviders={CLOUD_PROVIDERS}
                   onExportToCloudSuccess={onExportFileSuccess}
                   onLoadCloudMapSuccess={onLoadCloudMapSuccess}
                   onLoadCloudMapError={onLoadCloudMapError}

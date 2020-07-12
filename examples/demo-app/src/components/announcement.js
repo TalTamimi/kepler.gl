@@ -48,15 +48,10 @@ export const FormLink = 'https://shan990829.typeform.com/to/RbCAXt';
 const Announcement = ({onDisable}) => (
   <StyledText>
     <span>
-      Kepler.gl turns two years old! Help our open source community by taking this 5-minute-survey
-      and get a chance to win a <b>$100 Amazon gift card</b>. Make your answers count!
+      Good News every one Kepler is available
     </span>
-    <StyledLink target="_blank" href={FormLink}>
-      Take the survey
-    </StyledLink>
     {onDisable ? (
       <DisableBanner>
-        <StyledLink onClick={onDisable}>Already provided my feedback!</StyledLink>
       </DisableBanner>
     ) : null}
   </StyledText>

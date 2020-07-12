@@ -44,7 +44,6 @@ export function buildAppRoutes(Component) {
       <IndexRoute component={Component} />
       <Route path="map" component={Component} />
       <Route path="(:id)" component={Component} />
-      <Route path="map/:provider" component={Component} />
     </Route>
   ];
 }
