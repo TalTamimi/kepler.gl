@@ -263,13 +263,13 @@ export type MapInfo = {
   title: string;
   description: string;
 };
-export type FileLoading =
-  | {
-      filesToLoad: any[];
-      onFinish: (payload: any) => any;
-      fileCache: any[];
-    }
-  | false;
+
+export type FileLoading = {
+  filesToLoad: any[];
+  onFinish: (payload: any) => any;
+  fileCache: any[];
+};
+
 export type FileLoadingProgress = {
   [key: string]: {
     percent: number;
