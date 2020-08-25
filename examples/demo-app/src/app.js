@@ -104,7 +104,7 @@ class App extends Component {
     this.props.dispatch(
       wrapIt(
         loadCustomMapStyle({
-          style: "http://10.0.2.3:80/styles/basic-preview/style.json"
+          style: "https://ai.estishraf.gov.sa/tileserver/styles/basic-preview/style.json"
         })
       )
     );
